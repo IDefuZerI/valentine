@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e11d6d">
+    <title>💕 Валентинка для тебе</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffd6e0 50%, #ffb3c6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== Background hearts ===== */
+        .bg-heart {
+            position: fixed;
+            color: #e11d6d;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: floatHeart 6s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        /* ===== Shared container ===== */
+        .screen {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ===== Question screen ===== */
+        .big-heart {
+            font-size: 80px;
+            margin-bottom: 24px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #c74b7a;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .title-main {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #e11d6d;
+            font-size: 2.8rem;
+            margin-bottom: 48px;
+        }
+
+        .buttons-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            position: relative;
+            min-height: 280px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #e11d6d, #ff6b9d);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 40px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(225, 29, 109, 0.35);
+            transition: all 0.2s ease;
+            z-index: 10;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-yes:hover {
+            box-shadow: 0 6px 30px rgba(225, 29, 109, 0.55);
+            transform: scale(1.05);
+        }
+
+        .btn-no {
+            background: #f0f0f0;
+            color: #999;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 40px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: padding 0.2s, font-size 0.2s;
+            z-index: 50;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* ===== Success screen ===== */
+        .success-heart {
+            font-size: 100px;
+            margin-bottom: 16px;
+            animation: pulse 1s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .success-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #c74b7a;
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .success-text {
+            font-family: 'Playfair Display', serif;
+            color: #d63384;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .success-text-small {
+            font-family: 'Playfair Display', serif;
+            color: #e77a9e;
+            font-size: 1.2rem;
+        }
+
+        .success-emojis {
+            font-size: 3.5rem;
+            margin-top: 32px;
+            animation: bounce 1s ease-in-out infinite;
+            user-select: none;
+        }
+
+        /* ===== Celebration hearts ===== */
+        .celebration-heart {
+            position: fixed;
+            pointer-events: none;
+            bottom: -10%;
+            user-select: none;
+            animation: floatUp 3.5s ease-out forwards;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.2); }
+            60% { transform: scale(1); }
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0px) rotate(-5deg); }
+            100% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-130vh) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* ===== Mobile ===== */
+        @media (max-width: 600px) {
+            .title { font-size: 1.6rem; }
+            .title-main { font-size: 2rem; margin-bottom: 32px; }
+            .big-heart { font-size: 60px; }
+            .success-title { font-size: 2rem; }
+            .success-text { font-size: 1.1rem; }
+            .success-text-small { font-size: 0.95rem; }
+            .success-emojis { font-size: 2.8rem; }
+            .btn-yes, .btn-no { padding: 14px 32px; font-size: 18px; }
+            .buttons-area { min-height: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Hearts -->
+    <div id="bgHearts" aria-hidden="true"></div>
+
+    <!-- Question Screen -->
+    <div class="screen" id="questionScreen">
+        <div class="big-heart">&#10084;&#65039;</div>
+        <h1 class="title">Чи будеш моєю</h1>
+        <h1 class="title-main">Валентинкою? 💕</h1>
+
+        <div class="buttons-area" id="buttonsArea">
+            <button class="btn-yes" id="btnYes">Так! 💖</button>
+            <button class="btn-no" id="btnNo">Ні 😢</button>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="screen hidden" id="successScreen">
+        <div class="success-heart">&#10084;&#65039;</div>
+        <h1 class="success-title">Ураааа! 🎉</h1>
+        <p class="success-text">Я знав(ла), що ти скажеш так!</p>
+        <p class="success-text-small">Ти найкраща Валентинка у світі! 💕</p>
+        <div class="success-emojis">🥰💖🥰</div>
+    </div>
+
+    <script>
+        // ====== Background hearts ======
+        (function () {
+            var container = document.getElementById('bgHearts');
+            for (var i = 0; i < 18; i++) {
+                var heart = document.createElement('div');
+                heart.className = 'bg-heart';
+                heart.innerHTML = '&#10084;';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 24 + 10) + 'px';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(heart);
+            }
+        })();
+
+        // ====== Button logic ======
+        var noScale = 1;
+        var yesScale = 1;
+        var btnNo = document.getElementById('btnNo');
+        var btnYes = document.getElementById('btnYes');
+        var buttonsArea = document.getElementById('buttonsArea');
+        var moved = false;
+
+        function moveNoButton() {
+            var padding = 60;
+            var btnW = 160;
+            var btnH = 60;
+            var maxX = window.innerWidth - btnW - padding;
+            var maxY = window.innerHeight - btnH - padding;
+
+            var newX = padding + Math.random() * Math.max(maxX - padding, 0);
+            var newY = padding + Math.random() * Math.max(maxY - padding, 0);
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+            moved = true;
+
+            // Shrink No (multiplicative so it keeps shrinking for many hovers)
+            noScale = Math.max(noScale * 0.82, 0.08);
+            btnNo.style.padding = (14 * noScale) + 'px ' + (36 * noScale) + 'px';
+            btnNo.style.fontSize = Math.max(18 * noScale, 4) + 'px';
+
+            // Grow Yes (multiplicative so it keeps growing for many hovers)
+            yesScale = Math.min(yesScale * 1.12, 5);
+            btnYes.style.padding = (14 * yesScale) + 'px ' + (36 * yesScale) + 'px';
+            btnYes.style.fontSize = (18 * yesScale) + 'px';
+        }
+
+        // Works on desktop (hover) and mobile (touch)
+        btnNo.addEventListener('mouseenter', moveNoButton);
+        btnNo.addEventListener('touchstart', function (e) {
+            e.preventDefault();
+            moveNoButton();
+        });
+        // Extra safety: if they somehow click it, move it again
+        btnNo.addEventListener('click', function (e) {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // ====== Yes button ======
+        btnYes.addEventListener('click', function () {
+            document.getElementById('questionScreen').classList.add('hidden');
+            var success = document.getElementById('successScreen');
+            success.classList.remove('hidden');
+            success.classList.add('fade-in');
+
+            // Celebration hearts
+            var colors = ['#e11d6d', '#ff6b9d', '#c74b7a', '#ff3e7f', '#ff85a2', '#d63384', '#ff1493'];
+            for (var i = 0; i < 40; i++) {
+                var heart = document.createElement('div');
+                heart.className = 'celebration-heart';
+                heart.innerHTML = '&#10084;';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 30 + 14) + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.animationDelay = (Math.random() * 2.5) + 's';
+                document.body.appendChild(heart);
+            }
+        });
+    </script>
+</body>
+</html>

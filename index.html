@@ -241,6 +241,7 @@
         <h1 class="success-title">Ураааа! 🎉</h1>
         <p class="success-text">Я знав(ла), що ти скажеш так!</p>
         <p class="success-text-small">Ти найкраща Валентинка у світі! 💕</p>
+
         <div class="success-emojis">🥰💖🥰</div>
     </div>
 
@@ -264,6 +265,7 @@
         // ====== Button logic ======
         var noScale = 1;
         var yesScale = 1;
+        var hoverCount = 0;
         var btnNo = document.getElementById('btnNo');
         var btnYes = document.getElementById('btnYes');
         var buttonsArea = document.getElementById('buttonsArea');
@@ -283,6 +285,7 @@
             btnNo.style.left = newX + 'px';
             btnNo.style.top = newY + 'px';
             moved = true;
+            hoverCount++;
 
             // Shrink No (multiplicative so it keeps shrinking for many hovers)
             noScale = Math.max(noScale * 0.82, 0.08);
@@ -310,9 +313,20 @@
         // ====== Yes button ======
         btnYes.addEventListener('click', function () {
             document.getElementById('questionScreen').classList.add('hidden');
+            if (btnNo.style.position === 'fixed') {
+                btnNo.style.display = 'none';
+            }
             var success = document.getElementById('successScreen');
             success.classList.remove('hidden');
             success.classList.add('fade-in');
+
+            // Secret: hide the count in the tab title, URL hash, and console
+            window.location.hash = 'n' + hoverCount;
+            document.title = '\u2764\uFE0F Так! (' + hoverCount + ')';
+            console.log(
+                '%c She hovered over "No" ' + hoverCount + ' time(s) before saying Yes!',
+                'color: #e11d6d; font-size: 16px; font-weight: bold;'
+            );
 
             // Celebration hearts
             var colors = ['#e11d6d', '#ff6b9d', '#c74b7a', '#ff3e7f', '#ff85a2', '#d63384', '#ff1493'];
@@ -325,6 +339,20 @@
                 heart.style.color = colors[Math.floor(Math.random() * colors.length)];
                 heart.style.animationDelay = (Math.random() * 2.5) + 's';
                 document.body.appendChild(heart);
+            }
+        });
+        // ====== Secret: type "love" on keyboard to see hover count ======
+        var secretBuffer = '';
+        document.addEventListener('keydown', function (e) {
+            secretBuffer += e.key.toLowerCase();
+            if (secretBuffer.length > 10) secretBuffer = secretBuffer.slice(-10);
+            if (secretBuffer.indexOf('love') !== -1) {
+                secretBuffer = '';
+                var popup = document.createElement('div');
+                popup.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:rgba(0,0,0,0.85);color:#ff6b9d;padding:12px 20px;border-radius:16px;font-family:Inter,sans-serif;font-size:14px;box-shadow:0 4px 24px rgba(0,0,0,0.3);animation:fadeIn 0.3s ease-out;';
+                popup.innerHTML = '<span style="color:rgba(255,255,255,0.6)">Hovers on No: </span><strong>' + hoverCount + '</strong>';
+                document.body.appendChild(popup);
+                setTimeout(function () { popup.remove(); }, 3000);
             }
         });
     </script>

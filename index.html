@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#e11d6d">
-    <title>💕 Валентинка для тебе</title>
+    <title>Валентинка для тебе</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -23,7 +23,6 @@
             justify-content: center;
         }
 
-        /* ===== Background hearts ===== */
         .bg-heart {
             position: fixed;
             color: #e11d6d;
@@ -33,7 +32,6 @@
             user-select: none;
         }
 
-        /* ===== Shared container ===== */
         .screen {
             text-align: center;
             z-index: 10;
@@ -48,7 +46,6 @@
 
         .hidden { display: none !important; }
 
-        /* ===== Question screen ===== */
         .big-heart {
             font-size: 80px;
             margin-bottom: 24px;
@@ -121,7 +118,6 @@
             white-space: nowrap;
         }
 
-        /* ===== Success screen ===== */
         .success-heart {
             font-size: 100px;
             margin-bottom: 16px;
@@ -157,7 +153,6 @@
             user-select: none;
         }
 
-        /* ===== Celebration hearts ===== */
         .celebration-heart {
             position: fixed;
             pointer-events: none;
@@ -166,7 +161,6 @@
             animation: floatUp 3.5s ease-out forwards;
         }
 
-        /* ===== Animations ===== */
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
             15% { transform: scale(1.3); }
@@ -204,7 +198,6 @@
             animation: fadeIn 0.6s ease-out forwards;
         }
 
-        /* ===== Mobile ===== */
         @media (max-width: 600px) {
             .title { font-size: 1.6rem; }
             .title-main { font-size: 2rem; margin-bottom: 32px; }
@@ -220,33 +213,50 @@
 </head>
 <body>
 
-    <!-- Background Hearts -->
     <div id="bgHearts" aria-hidden="true"></div>
 
-    <!-- Question Screen -->
     <div class="screen" id="questionScreen">
         <div class="big-heart">&#10084;&#65039;</div>
         <h1 class="title">Чи будеш моєю</h1>
-        <h1 class="title-main">Валентинкою? 💕</h1>
+        <h1 class="title-main">Валентинкою? &#128149;</h1>
 
         <div class="buttons-area" id="buttonsArea">
-            <button class="btn-yes" id="btnYes">Так! 💖</button>
-            <button class="btn-no" id="btnNo">Ні 😢</button>
+            <button class="btn-yes" id="btnYes">Так! &#128150;</button>
+            <button class="btn-no" id="btnNo">Ні &#128546;</button>
         </div>
     </div>
 
-    <!-- Success Screen -->
     <div class="screen hidden" id="successScreen">
         <div class="success-heart">&#10084;&#65039;</div>
-        <h1 class="success-title">Ураааа! 🎉</h1>
+        <h1 class="success-title">Ураааа! &#127881;</h1>
         <p class="success-text">Я знав(ла), що ти скажеш так!</p>
-        <p class="success-text-small">Ти найкраща Валентинка у світі! 💕</p>
-
-        <div class="success-emojis">🥰💖🥰</div>
+        <p class="success-text-small">Ти найкраща Валентинка у світі! &#128149;</p>
+        <div class="success-emojis">&#129392;&#128150;&#129392;</div>
     </div>
 
     <script>
-        // ====== Background hearts ======
+        // ============================================================
+        // TELEGRAM CONFIG - VSTAV SVOI DANI SYUDY:
+        // ============================================================
+        var TG_BOT_TOKEN = 'VSTAV_SVIY_TOKEN_BOTA';  // napryklad: '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'
+        var TG_CHAT_ID   = 'VSTAV_SVIY_CHAT_ID';     // napryklad: '123456789'
+        // ============================================================
+
+        function sendTelegram(text) {
+            if (!TG_BOT_TOKEN || TG_BOT_TOKEN === 'VSTAV_SVIY_TOKEN_BOTA') return;
+            var url = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TG_CHAT_ID,
+                    text: text,
+                    parse_mode: 'HTML'
+                })
+            }).catch(function() {});
+        }
+
+        // Background hearts
         (function () {
             var container = document.getElementById('bgHearts');
             for (var i = 0; i < 18; i++) {
@@ -262,7 +272,7 @@
             }
         })();
 
-        // ====== Button logic ======
+        // Button logic
         var noScale = 1;
         var yesScale = 1;
         var hoverCount = 0;
@@ -287,31 +297,33 @@
             moved = true;
             hoverCount++;
 
-            // Shrink No (multiplicative so it keeps shrinking for many hovers)
+            // Send to Telegram
+            sendTelegram('<b>Натиснула "Ні"!</b>\nСпроба: ' + hoverCount);
+
             noScale = Math.max(noScale * 0.82, 0.08);
             btnNo.style.padding = (14 * noScale) + 'px ' + (36 * noScale) + 'px';
             btnNo.style.fontSize = Math.max(18 * noScale, 4) + 'px';
 
-            // Grow Yes (multiplicative so it keeps growing for many hovers)
             yesScale = Math.min(yesScale * 1.12, 5);
             btnYes.style.padding = (14 * yesScale) + 'px ' + (36 * yesScale) + 'px';
             btnYes.style.fontSize = (18 * yesScale) + 'px';
         }
 
-        // Works on desktop (hover) and mobile (touch)
         btnNo.addEventListener('mouseenter', moveNoButton);
         btnNo.addEventListener('touchstart', function (e) {
             e.preventDefault();
             moveNoButton();
         });
-        // Extra safety: if they somehow click it, move it again
         btnNo.addEventListener('click', function (e) {
             e.preventDefault();
             moveNoButton();
         });
 
-        // ====== Yes button ======
+        // Yes button
         btnYes.addEventListener('click', function () {
+            // Send to Telegram
+            sendTelegram('<b>Сказала ТАК!</b> &#10084;&#65039;\nВсього спроб "Ні": ' + hoverCount);
+
             document.getElementById('questionScreen').classList.add('hidden');
             if (btnNo.style.position === 'fixed') {
                 btnNo.style.display = 'none';
@@ -320,15 +332,9 @@
             success.classList.remove('hidden');
             success.classList.add('fade-in');
 
-            // Secret: hide the count in the tab title, URL hash, and console
             window.location.hash = 'n' + hoverCount;
             document.title = '\u2764\uFE0F Так! (' + hoverCount + ')';
-            console.log(
-                '%c She hovered over "No" ' + hoverCount + ' time(s) before saying Yes!',
-                'color: #e11d6d; font-size: 16px; font-weight: bold;'
-            );
 
-            // Celebration hearts
             var colors = ['#e11d6d', '#ff6b9d', '#c74b7a', '#ff3e7f', '#ff85a2', '#d63384', '#ff1493'];
             for (var i = 0; i < 40; i++) {
                 var heart = document.createElement('div');
@@ -341,7 +347,8 @@
                 document.body.appendChild(heart);
             }
         });
-        // ====== Secret: type "love" on keyboard to see hover count ======
+
+        // Secret: type "love"
         var secretBuffer = '';
         document.addEventListener('keydown', function (e) {
             secretBuffer += e.key.toLowerCase();
